@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>عصابات مستر X</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:      #06060D;
+  --s1:      #11111E;
+  --s2:      #181826;
+  --border:  rgba(255,255,255,0.07);
+  --text:    #E8E8F2;
+  --dim:     #505090;
+  --gold:    #F0B429;
+  --red:     #E8303A;
+  --blue:    #3D7FD4;
+  --green:   #21A85A;
+  --radius:  18px;
+}
+*,*::before,*::after { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+html { color-scheme: dark; }
+body {
+  background:var(--bg); color:var(--text);
+  font-family:'Cairo',system-ui,sans-serif;
+  min-height:100dvh; direction:rtl;
+  overflow-x:hidden;
+  padding-bottom:calc(90px + env(safe-area-inset-bottom));
+}
+/* grid bg */
+body::before {
+  content:''; position:fixed; inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.018) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,0.018) 1px,transparent 1px);
+  background-size:48px 48px; pointer-events:none; z-index:0;
+}
+.app { position:relative; z-index:1; max-width:480px; margin:0 auto; padding:16px; }
+
+/* ── HEADER ── */
+.header { text-align:center; padding:20px 0 12px; }
+.top-label { font-size:11px; color:var(--dim); letter-spacing:3px; margin-bottom:14px; }
+.main-title { font-size:clamp(2.6rem,9vw,4rem); font-weight:900; line-height:1; }
+.x-glow { color:var(--red); text-shadow:0 0 28px var(--red); }
+.day-pill {
+  display:inline-flex; align-items:center; gap:6px;
+  background:var(--s2); border:1px solid var(--border);
+  border-radius:30px; padding:5px 14px;
+  font-size:12px; color:var(--dim); margin-top:10px;
+  cursor:default;
+}
+.day-pill .dot { width:7px;height:7px;border-radius:50%; }
+
+/* ── STOLEN HAT BANNER ── */
+.stolen-banner {
+  border-radius:var(--radius); padding:14px 16px;
+  margin:12px 0; display:flex; align-items:center; gap:12px;
+  background:var(--s1); border:1px solid rgba(255,255,255,0.08);
+  transition:border-color .3s;
+}
+.stolen-banner.active { border-color:var(--hat-color); box-shadow:0 0 16px var(--hat-glow); }
+.stolen-icon { font-size:2rem; flex-shrink:0; }
+.stolen-info { flex:1; }
+.stolen-title { font-size:10px; color:var(--dim); letter-spacing:3px; }
+.stolen-name { font-size:15px; font-weight:700; margin-top:2px; }
+.stolen-badge {
+  background:var(--gold); color:#000;
+  font-size:11px; font-weight:900;
+  padding:4px 10px; border-radius:20px; white-space:nowrap;
+}
+
+/* ── MR X REVEAL ── */
+.mrx-section {
+  background:var(--s1); border:1px solid rgba(240,180,41,.18);
+  border-top:2px solid var(--gold); border-radius:var(--radius);
+  padding:20px 16px 16px; margin:12px 0; text-align:center;
+  position:relative;
+}
+.mrx-section::before {
+  content:'سري للغاية'; position:absolute; top:-10px; left:50%;
+  transform:translateX(-50%); background:var(--gold); color:#000;
+  font-size:9px; font-weight:900; letter-spacing:3px; padding:2px 12px; border-radius:3px;
+}
+.mrx-sub { font-size:10px; color:var(--dim); letter-spacing:3px; margin-bottom:14px; }
+.mrx-letters { display:flex; justify-content:center; gap:8px; }
+.mrx-letter {
+  width:62px; height:70px; border-radius:12px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:1.9rem; font-weight:900; transition:all .6s ease;
+}
+.mrx-letter.hidden { background:#0c0c18; border:1px solid rgba(255,255,255,0.06); }
+.mrx-letter.hidden::after { content:''; display:block; width:40px; height:48px; background:#222233; border-radius:7px; }
+.mrx-letter.revealed {
+  background:linear-gradient(135deg,#181830,#0a0a18);
+  border:1px solid var(--gold); color:var(--gold);
+  box-shadow:0 0 20px rgba(240,180,41,.3);
+  animation:pop .5s ease;
+}
+@keyframes pop { 0%{transform:scale(.6);opacity:0} 65%{transform:scale(1.15)} 100%{transform:scale(1);opacity:1} }
+
+/* Progress bar under letters */
+.mrx-progress { margin-top:14px; }
+.prog-bar { height:3px; background:rgba(255,255,255,.08); border-radius:3px; overflow:hidden; margin-top:6px; }
+.prog-fill { height:100%; background:var(--gold); border-radius:3px; transition:width .6s ease; }
+.prog-text { font-size:11px; color:var(--dim); display:flex; justify-content:space-between; }
+.prog-text span { color:var(--gold); font-weight:700; }
+
+/* ── TEAMS ── */
+.divlabel { font-size:10px; color:var(--dim); letter-spacing:3px; text-align:center; margin:18px 0 12px; }
+
+.teams-list { display:flex; flex-direction:column; gap:10px; }
+
+.team-card {
+  background:var(--s1); border:1px solid var(--border);
+  border-radius:var(--radius); padding:16px 18px;
+  display:flex; align-items:center; gap:14px;
+  position:relative; overflow:hidden; transition:box-shadow .3s;
+}
+.team-card::before {
+  content:''; position:absolute; right:0; top:0; bottom:0;
+  width:3px; background:var(--tc); border-radius:0 var(--radius) var(--radius) 0;
+}
+.team-card::after {
+  content:''; position:absolute; inset:0;
+  background:radial-gradient(ellipse at right,var(--tg) 0%,transparent 70%);
+  pointer-events:none;
+}
+.team-card.rank1 { border-color:rgba(240,180,41,.35); box-shadow:0 0 20px rgba(240,180,41,.06); }
+
+.rank-num { font-size:1.1rem; width:28px; text-align:center; color:var(--dim); flex-shrink:0; font-weight:900; }
+.rank1 .rank-num { color:var(--gold); }
+.rank2 .rank-num { color:#9090a8; }
+.rank3 .rank-num { color:#b87333; }
+
+.team-info { flex:1; min-width:0; }
+.team-name { font-size:14px; font-weight:700; margin-bottom:6px; }
+.team-hats { display:flex; gap:3px; flex-wrap:wrap; min-height:22px; }
+.hat-dot { width:20px; height:20px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:11px; background:var(--s2); border:1px solid rgba(255,255,255,.08); }
+
+.team-score {
+  font-family:'Bebas Neue',Impact,sans-serif;
+  font-size:4.5rem; line-height:1; color:var(--tc);
+  text-shadow:0 0 24px var(--tc); flex-shrink:0;
+  transition:transform .25s;
+}
+.team-score.bump { transform:scale(1.12) translateY(-3px); }
+
+/* ── LOG ── */
+.log-section { background:var(--s1); border:1px solid var(--border); border-radius:var(--radius); padding:16px; margin-top:12px; }
+.log-header { font-size:11px; color:var(--dim); letter-spacing:2px; margin-bottom:10px; }
+.log-list { display:flex; flex-direction:column; gap:6px; max-height:200px; overflow-y:auto; }
+.log-item {
+  display:flex; align-items:center; gap:8px;
+  padding:8px 10px; background:var(--s2); border-radius:10px;
+  font-size:12px; animation:fadeUp .3s ease;
+}
+@keyframes fadeUp { from{opacity:0;transform:translateY(-5px)} to{opacity:1;transform:translateY(0)} }
+.log-item .lpts { margin-right:auto; font-family:'Bebas Neue',sans-serif; font-size:1.1rem; }
+.lpts.pos { color:#2ecc71; } .lpts.neg { color:var(--red); }
+.log-empty { text-align:center; color:var(--dim); font-size:12px; padding:16px; }
+
+/* ── FAB ── */
+.fab {
+  position:fixed; bottom:calc(24px + env(safe-area-inset-bottom));
+  left:50%; transform:translateX(-50%);
+  background:var(--red); color:#fff; border:none;
+  width:56px; height:56px; border-radius:28px;
+  font-size:1.4rem; cursor:pointer; z-index:100;
+  box-shadow:0 4px 24px rgba(232,48,58,.5);
+  transition:all .2s; display:flex; align-items:center; justify-content:center;
+}
+.fab:active { transform:translateX(-50%) scale(.93); }
+
+/* ── ADMIN BOTTOM SHEET ── */
+.overlay { position:fixed; inset:0; background:rgba(0,0,0,.7); z-index:200; opacity:0; pointer-events:none; transition:opacity .3s; }
+.overlay.open { opacity:1; pointer-events:all; }
+
+.sheet {
+  position:fixed; bottom:0; left:0; right:0; z-index:201;
+  background:var(--s1); border-radius:24px 24px 0 0;
+  border-top:1px solid var(--border);
+  padding:0 0 env(safe-area-inset-bottom);
+  transform:translateY(100%);
+  transition:transform .36s cubic-bezier(.32,.72,0,1);
+  max-height:90dvh; overflow-y:auto;
+}
+.sheet.open { transform:translateY(0); }
+.sheet-handle { width:36px; height:4px; background:var(--border); border-radius:2px; margin:12px auto 0; }
+
+/* Gate */
+.gate { padding:24px 20px; text-align:center; }
+.gate-lbl { font-size:13px; color:var(--dim); margin-bottom:14px; }
+.gate input {
+  background:var(--s2); border:2px solid var(--border);
+  border-radius:12px; padding:12px 16px; color:var(--text);
+  font-family:'Cairo',sans-serif; font-size:16px;
+  text-align:center; outline:none; width:200px; letter-spacing:4px; display:block; margin:0 auto;
+}
+.gate input:focus { border-color:var(--gold); }
+.gate-btn {
+  margin:12px auto 0; display:block; padding:12px 28px;
+  background:var(--gold); color:#000; border:none; border-radius:12px;
+  font-family:'Cairo',sans-serif; font-weight:900; font-size:15px; cursor:pointer;
+}
+.gate-err { color:var(--red); font-size:12px; margin-top:8px; display:none; }
+
+/* Controls */
+.ctrl { padding:16px 16px 24px; display:none; }
+.ctrl.open { display:block; }
+.ctrl-title { font-size:14px; font-weight:700; color:var(--dim); margin-bottom:16px; text-align:center; }
+.slbl { font-size:10px; color:var(--dim); letter-spacing:2px; margin-bottom:8px; margin-top:14px; }
+
+/* team pills */
+.team-pills { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
+.tpill {
+  padding:10px 6px; border-radius:12px; border:2px solid var(--border);
+  background:var(--s2); color:var(--text);
+  font-family:'Cairo',sans-serif; font-size:12px; font-weight:700;
+  cursor:pointer; text-align:center; transition:all .2s; line-height:1.4;
+}
+.tpill.sel { border-color:var(--tc); background:var(--tg); color:#fff; }
+
+/* mission cards */
+.mission-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:8px; }
+.mcard {
+  padding:14px 10px; border-radius:12px; border:2px solid var(--border);
+  background:var(--s2); color:var(--text);
+  font-family:'Cairo',sans-serif; font-size:13px; font-weight:700;
+  cursor:pointer; text-align:center; transition:all .2s;
+}
+.mcard .mpts { font-family:'Bebas Neue',sans-serif; font-size:1.4rem; display:block; margin-top:2px; }
+.mcard.sel { border-color:var(--gold); background:rgba(240,180,41,.1); color:var(--gold); }
+
+/* hat grid */
+.hat-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:7px; }
+.hcard {
+  padding:9px 6px; border-radius:10px; border:2px solid var(--border);
+  background:var(--s2); cursor:pointer; text-align:center; transition:all .2s;
+  font-family:'Cairo',sans-serif; font-size:11px;
+}
+.hcard .he { font-size:1.3rem; display:block; margin-bottom:2px; }
+.hcard .hn { font-weight:700; display:block; }
+.hcard.sel { border-color:var(--hc); box-shadow:0 0 10px var(--hg); }
+.hcard.stolen-today { position:relative; }
+.hcard.stolen-today::after {
+  content:'+5'; position:absolute; top:-6px; left:-6px;
+  background:var(--gold); color:#000; font-size:9px; font-weight:900;
+  padding:1px 5px; border-radius:6px;
+}
+
+/* points display */
+.pts-display {
+  background:var(--s2); border-radius:12px; padding:14px;
+  text-align:center; margin:14px 0;
+}
+.pts-big { font-family:'Bebas Neue',sans-serif; font-size:3.5rem; color:var(--gold); line-height:1; }
+.pts-breakdown { font-size:11px; color:var(--dim); margin-top:4px; }
+
+/* stolen toggle */
+.stolen-toggle {
+  display:flex; align-items:center; justify-content:space-between;
+  background:var(--s2); border-radius:12px; padding:12px 14px;
+  border:1px solid var(--border); cursor:pointer; margin-bottom:14px;
+  transition:border-color .2s;
+}
+.stolen-toggle.on { border-color:var(--gold); }
+.stolen-toggle-label { font-size:13px; }
+.stolen-toggle-check { width:20px; height:20px; border-radius:50%; border:2px solid var(--dim); display:flex; align-items:center; justify-content:center; font-size:11px; transition:all .2s; }
+.stolen-toggle.on .stolen-toggle-check { background:var(--gold); border-color:var(--gold); color:#000; }
+
+/* action row */
+.action-row { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+.add-btn { padding:14px; background:var(--gold); color:#000; border:none; border-radius:12px; font-family:'Cairo',sans-serif; font-size:15px; font-weight:900; cursor:pointer; }
+.ded-btn { padding:14px; background:transparent; color:var(--red); border:2px solid var(--red); border-radius:12px; font-family:'Cairo',sans-serif; font-size:15px; font-weight:700; cursor:pointer; }
+.undo-btn { width:100%; padding:11px; background:transparent; color:var(--dim); border:1px solid var(--border); border-radius:10px; font-family:'Cairo',sans-serif; font-size:13px; cursor:pointer; margin-top:8px; }
+
+/* settings */
+.settings-sep { border-top:1px solid var(--border); margin-top:16px; padding-top:16px; }
+.cfg-row { display:flex; gap:8px; margin-bottom:8px; }
+.cfg-in { flex:1; background:var(--s2); border:2px solid var(--border); border-radius:10px; padding:9px 12px; color:var(--text); font-family:'Cairo',sans-serif; font-size:14px; outline:none; }
+.cfg-btn { padding:9px 14px; background:var(--s2); border:2px solid var(--border); border-radius:10px; color:var(--text); font-family:'Cairo',sans-serif; font-size:12px; cursor:pointer; white-space:nowrap; }
+
+/* day toggle */
+.day-toggle { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:12px; }
+.day-btn { padding:9px; background:var(--s2); border:2px solid var(--border); border-radius:10px; color:var(--dim); font-family:'Cairo',sans-serif; font-size:13px; cursor:pointer; text-align:center; }
+.day-btn.sel { border-color:var(--blue); color:var(--blue); }
+
+.reset-btn { width:100%; padding:10px; background:transparent; color:var(--red); border:1px solid rgba(232,48,58,.3); border-radius:10px; font-family:'Cairo',sans-serif; font-size:12px; cursor:pointer; margin-top:8px; }
+
+/* ── TOAST ── */
+.toast { position:fixed; top:16px; left:50%; transform:translateX(-50%) translateY(-80px); background:var(--gold); color:#000; padding:11px 22px; border-radius:30px; font-weight:700; font-size:14px; z-index:999; transition:transform .3s; white-space:nowrap; }
+.toast.show { transform:translateX(-50%) translateY(0); }
+
+/* ── REVEAL MODAL ── */
+.reveal-modal {
+  position:fixed; inset:0; background:rgba(0,0,0,.92);
+  display:flex; align-items:center; justify-content:center; flex-direction:column; gap:12px;
+  z-index:500; opacity:0; pointer-events:none; transition:opacity .4s;
+}
+.reveal-modal.show { opacity:1; pointer-events:all; }
+.reveal-pulse { width:100px; height:100px; border-radius:50%; background:rgba(232,48,58,.15); display:flex; align-items:center; justify-content:center; animation:rpulse 1.5s infinite; }
+@keyframes rpulse { 0%,100%{box-shadow:0 0 0 0 rgba(232,48,58,.4)} 50%{box-shadow:0 0 0 30px rgba(232,48,58,0)} }
+.reveal-icon { font-size:2.5rem; }
+.reveal-title { font-size:1.3rem; color:var(--gold); font-weight:700; text-align:center; }
+.reveal-letter { font-size:7rem; color:var(--gold); font-weight:900; text-shadow:0 0 50px var(--gold); line-height:1; }
+.reveal-hint { font-size:13px; color:var(--dim); }
+
+/* ── WINNER ── */
+.winner-modal { position:fixed; inset:0; background:rgba(0,0,0,.96); display:none; align-items:center; justify-content:center; flex-direction:column; gap:12px; z-index:600; text-align:center; padding:24px; }
+.winner-modal.show { display:flex; }
+.winner-name { font-size:5rem; color:var(--gold); font-weight:900; text-shadow:0 0 40px var(--gold); margin:8px 0; }
+.winner-close { margin-top:16px; padding:14px 36px; background:var(--gold); color:#000; border:none; border-radius:30px; font-family:'Cairo',sans-serif; font-weight:900; font-size:16px; cursor:pointer; }
+
+/* confetti */
+.confetti-piece { position:fixed; border-radius:2px; top:-20px; animation:fall linear forwards; z-index:4000; pointer-events:none; }
+@keyframes fall { to{transform:translateY(110vh) rotate(720deg);opacity:0} }
+
+/* settings toggle btn */
+.settings-tog { display:flex; align-items:center; justify-content:center; gap:6px; color:var(--dim); background:none; border:none; font-family:'Cairo',sans-serif; font-size:12px; cursor:pointer; margin:14px auto 0; text-decoration:underline; text-underline-offset:3px; }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="top-label">أسرة ثانوي • مؤتمر صيف ٢٠٢٦</div>
+    <h1 class="main-title">عصابات مستر <span class="x-glow">X</span></h1>
+    <div class="day-pill">
+      <div class="dot" id="dayDot"></div>
+      <span id="dayLabel">اليوم الأول</span>
+    </div>
+  </div>
+
+  <!-- Stolen Hat Banner -->
+  <div class="stolen-banner" id="stolenBanner">
+    <div class="stolen-icon" id="stolenEmoji">🎩</div>
+    <div class="stolen-info">
+      <div class="stolen-title">القبعة المفقودة اليوم</div>
+      <div class="stolen-name" id="stolenName">لم تُحدد بعد</div>
+    </div>
+    <div class="stolen-badge">+5 نقطة</div>
+  </div>
+
+  <!-- Mr X Reveal -->
+  <div class="mrx-section">
+    <div class="mrx-sub">هوية مستر X السرية</div>
+    <div class="mrx-letters" id="mrxLetters"></div>
+    <div class="mrx-progress">
+      <div class="prog-text">
+        <span id="totalPtsLbl">0 نقطة</span>
+        <span id="nextRevLbl">الحرف القادم بعد — نقطة</span>
+      </div>
+      <div class="prog-bar"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
+    </div>
+  </div>
+
+  <!-- Teams -->
+  <div class="divlabel">الترتيب الحالي</div>
+  <div class="teams-list" id="teamsList"></div>
+
+  <!-- Log -->
+  <div class="log-section">
+    <div class="log-header">📋 سجل آخر العمليات</div>
+    <div class="log-list" id="logList"><div class="log-empty">لا يوجد نشاط بعد</div></div>
+  </div>
+
+</div><!-- /app -->
+
+<!-- FAB -->
+<button class="fab" id="fabBtn" onclick="openSheet()">🔒</button>
+
+<!-- Overlay -->
+<div class="overlay" id="overlay" onclick="closeSheet()"></div>
+
+<!-- Admin Bottom Sheet -->
+<div class="sheet" id="sheet">
+  <div class="sheet-handle"></div>
+
+  <!-- Gate -->
+  <div class="gate" id="gate">
+    <div class="gate-lbl">🔐 كلمة مرور المشرف</div>
+    <input type="password" id="passIn" placeholder="••••••" onkeydown="if(event.key==='Enter')checkPass()">
+    <button class="gate-btn" onclick="checkPass()">دخول</button>
+    <div class="gate-err" id="gateErr">كلمة المرور غلط!</div>
+  </div>
+
+  <!-- Controls -->
+  <div class="ctrl" id="ctrl">
+    <div class="ctrl-title">🎯 إضافة نقاط</div>
+
+    <div class="slbl">الخلية</div>
+    <div class="team-pills" id="teamPills"></div>
+
+    <div class="slbl">نوع المهمة</div>
+    <div class="mission-grid" id="missionGrid"></div>
+
+    <div class="slbl">القبعة المستخدمة</div>
+    <div class="hat-grid" id="hatGrid"></div>
+
+    <!-- Stolen hat toggle -->
+    <div class="stolen-toggle" id="stolenToggle" onclick="toggleStolen()">
+      <span class="stolen-toggle-label">✅ استخدموا القبعة المفقودة <span id="stolenToggleHat"></span></span>
+      <div class="stolen-toggle-check" id="stolenCheck"></div>
+    </div>
+
+    <!-- Points display -->
+    <div class="pts-display">
+      <div class="pts-big" id="ptsBig">—</div>
+      <div class="pts-breakdown" id="ptsBreak">اختر خلية ومهمة</div>
+    </div>
+
+    <div class="action-row">
+      <button class="add-btn" onclick="doAdd()">✅ إضافة</button>
+      <button class="ded-btn" onclick="doDed()">❌ خصم</button>
+    </div>
+    <button class="undo-btn" onclick="doUndo()">↩️ تراجع عن آخر عملية</button>
+
+    <button class="settings-tog" onclick="toggleSettings()">⚙️ إعدادات المشرف</button>
+
+    <!-- Settings (hidden by default) -->
+    <div class="settings-sep" id="settingsSec" style="display:none">
+
+      <div class="slbl">اليوم الحالي</div>
+      <div class="day-toggle">
+        <button class="day-btn" id="d1btn" onclick="setDay(1)">اليوم الأول 🌅</button>
+        <button class="day-btn" id="d2btn" onclick="setDay(2)">اليوم الثاني 🌃</button>
+      </div>
+
+      <div class="slbl">القبعة المفقودة اليوم</div>
+      <div class="hat-grid" id="stolenHatPicker"></div>
+
+      <div class="slbl" style="margin-top:14px">هوية مستر X السرية</div>
+      <div class="cfg-row">
+        <input class="cfg-in" type="text" id="cfgName" placeholder="مثال: يسوع" dir="rtl">
+        <button class="cfg-btn" onclick="saveName()">حفظ</button>
+      </div>
+
+      <div class="slbl">نقاط لكل حرف يتكشف</div>
+      <div class="cfg-row">
+        <input class="cfg-in" type="number" id="cfgThresh" value="150" min="20">
+        <button class="cfg-btn" onclick="saveThresh()">حفظ</button>
+      </div>
+
+      <button class="reset-btn" onclick="resetAll()">🔄 إعادة تعيين كل النقاط</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<!-- Reveal Modal -->
+<div class="reveal-modal" id="revModal" onclick="closeRevModal()">
+  <div class="reveal-pulse"><div class="reveal-icon">🕵️</div></div>
+  <div class="reveal-title">تم الكشف عن حرف جديد!</div>
+  <div class="reveal-letter" id="revLetter"></div>
+  <div class="reveal-hint">اضغط للإغلاق</div>
+</div>
+
+<!-- Winner Modal -->
+<div class="winner-modal" id="winnerModal">
+  <div style="font-size:3.5rem">🎉🕵️🎉</div>
+  <div style="font-size:1.1rem;color:var(--dim)">اكتملت المهمة! هوية مستر X هي:</div>
+  <div class="winner-name" id="winnerName"></div>
+  <button class="winner-close" onclick="closeWinner()">🏆 مبروك!</button>
+</div>
+
+<script>
+// ════════ CONSTANTS ════════
+const PASS = 'mission2026';
+
+const TEAMS_DEF = [
+  { id:0, name:'خلية الفجر',   color:'#E8303A', rgb:'232,48,58',   score:0, hats:[] },
+  { id:1, name:'خلية الظل',    color:'#3D7FD4', rgb:'61,127,212',  score:0, hats:[] },
+  { id:2, name:'خلية العاصفة', color:'#21A85A', rgb:'33,168,90',   score:0, hats:[] },
+];
+
+const HATS = [
+  { id:'white',  emoji:'⬜', name:'المحقق',   color:'#C8C8D8', glow:'rgba(200,200,216,.4)' },
+  { id:'red',    emoji:'🔴', name:'العميل',   color:'#E8303A', glow:'rgba(232,48,58,.4)'   },
+  { id:'black',  emoji:'⬛', name:'المحلل',   color:'#9090A8', glow:'rgba(144,144,168,.4)' },
+  { id:'yellow', emoji:'🟡', name:'المتفائل', color:'#F0B429', glow:'rgba(240,180,41,.4)'  },
+  { id:'green',  emoji:'🟢', name:'المبتكر',  color:'#21A85A', glow:'rgba(33,168,90,.4)'   },
+  { id:'blue',   emoji:'🔵', name:'القائد',   color:'#3D7FD4', glow:'rgba(61,127,212,.4)'  },
+];
+
+const MISSIONS = [
+  { id:'flash', label:'⚡ سريعة',  pts:10  },
+  { id:'cell',  label:'🎯 خلية',   pts:25  },
+  { id:'clue',  label:'🔍 دليل',   pts:25  },
+  { id:'final', label:'👑 نهائية', pts:100 },
+];
+
+// ════════ STATE ════════
+function defState() {
+  return {
+    teams: JSON.parse(JSON.stringify(TEAMS_DEF)),
+    mrxName: 'يسوع', revThresh: 150,
+    day: 1, stolenHat: null,
+    log: [], lastAction: null,
+  };
+}
+function load() {
+  try { const s=localStorage.getItem('mrx26v2'); if(s) return JSON.parse(s); } catch(e){}
+  return defState();
+}
+function save() { localStorage.setItem('mrx26v2', JSON.stringify(st)); }
+
+let st = load();
+// UI state (not persisted)
+let selTeam=null, selMission=null, selHat=null, stolenOn=false, adminUnlocked=false, settingsOpen=false;
+
+// ════════ COMPUTED ════════
+const totalPts = () => st.teams.reduce((s,t)=>s+t.score, 0);
+const revCount  = () => Math.min(Math.floor(totalPts()/st.revThresh), [...st.mrxName].length);
+const ranked    = () => [...st.teams].sort((a,b)=>b.score-a.score);
+
+function calcPts() {
+  if(!selMission) return null;
+  const m = MISSIONS.find(m=>m.id===selMission);
+  let pts = m.pts;
+  if(stolenOn && st.stolenHat) pts += 5;
+  return pts;
+}
+
+// ════════ RENDER ════════
+function render() {
+  renderMrX(); renderTeams(); renderTeamPills();
+  renderMissionGrid(); renderHatGrid(); renderPtsDisplay();
+  renderStolenBanner(); renderDayUI(); renderLog();
+  renderSettings();
+}
+
+function renderMrX() {
+  const letters = [...st.mrxName];
+  const rev = revCount();
+  const tot = totalPts();
+
+  document.getElementById('mrxLetters').innerHTML = letters.map((l,i) =>
+    `<div class="mrx-letter ${i<rev?'revealed':'hidden'}">${i<rev?l:''}</div>`
+  ).join('');
+
+  document.getElementById('totalPtsLbl').textContent = `${tot} نقطة`;
+
+  const nextRev = rev < letters.length ? (rev+1)*st.revThresh : null;
+  if(nextRev) {
+    const needed = nextRev - tot;
+    document.getElementById('nextRevLbl').textContent = `الحرف القادم بعد ${needed} نقطة`;
+    const pct = ((tot - rev*st.revThresh) / st.revThresh * 100).toFixed(1);
+    document.getElementById('progFill').style.width = Math.min(100,pct)+'%';
+  } else {
+    document.getElementById('nextRevLbl').textContent = '🎉 اكتملت المهمة!';
+    document.getElementById('progFill').style.width = '100%';
+  }
+}
+
+function renderTeams() {
+  const r = ranked();
+  const rankSymbol = ['👑','🥈','🥉'];
+  document.getElementById('teamsList').innerHTML = r.map((t,i) => {
+    const hatsHtml = t.hats.length
+      ? t.hats.map(hid => { const h=HATS.find(h=>h.id===hid); return h?`<div class="hat-dot" title="${h.name}">${h.emoji}</div>`:''; }).join('')
+      : `<span style="font-size:10px;color:var(--dim)">لا قبعات</span>`;
+    return `
+      <div class="team-card rank${i+1}" style="--tc:${t.color};--tg:${t.color}18">
+        <div class="rank-num">${rankSymbol[i]}</div>
+        <div class="team-info">
+          <div class="team-name">${t.name}</div>
+          <div class="team-hats">${hatsHtml}</div>
+        </div>
+        <div class="team-score" id="sc${t.id}">${t.score}</div>
+      </div>`;
+  }).join('');
+}
+
+function renderTeamPills() {
+  document.getElementById('teamPills').innerHTML = st.teams.map(t => `
+    <button class="tpill ${selTeam===t.id?'sel':''}"
+            style="--tc:${t.color};--tg:${t.color}28"
+            onclick="pickTeam(${t.id})">
+      ${t.name}
+    </button>`).join('');
+}
+
+function renderMissionGrid() {
+  document.getElementById('missionGrid').innerHTML = MISSIONS.map(m => `
+    <button class="mcard ${selMission===m.id?'sel':''}" onclick="pickMission('${m.id}')">
+      ${m.label}
+      <span class="mpts">${m.pts}</span>
+    </button>`).join('');
+}
+
+function renderHatGrid() {
+  document.getElementById('hatGrid').innerHTML = HATS.map(h => `
+    <button class="hcard ${selHat===h.id?'sel':''} ${st.stolenHat===h.id?'stolen-today':''}"
+            style="--hc:${h.color};--hg:${h.glow}"
+            onclick="pickHat('${h.id}')">
+      <span class="he">${h.emoji}</span>
+      <span class="hn">${h.name}</span>
+    </button>`).join('');
+}
+
+function renderStolenHatPicker() {
+  document.getElementById('stolenHatPicker').innerHTML = HATS.map(h => `
+    <button class="hcard ${st.stolenHat===h.id?'sel':''}"
+            style="--hc:${h.color};--hg:${h.glow}"
+            onclick="setStolenHat('${h.id}')">
+      <span class="he">${h.emoji}</span>
+      <span class="hn">${h.name}</span>
+    </button>`).join('');
+}
+
+function renderPtsDisplay() {
+  const pts = calcPts();
+  const ptsBig = document.getElementById('ptsBig');
+  const ptsBreak = document.getElementById('ptsBreak');
+  if(pts===null) {
+    ptsBig.textContent='—';
+    ptsBreak.textContent='اختر خلية ومهمة';
+  } else {
+    const base = MISSIONS.find(m=>m.id===selMission)?.pts||0;
+    const bonus = stolenOn && st.stolenHat ? 5 : 0;
+    ptsBig.textContent = pts;
+    ptsBreak.textContent = bonus ? `${base} نقطة أساسية + ${bonus} قبعة اليوم` : `${base} نقطة`;
+  }
+}
+
+function renderStolenBanner() {
+  const h = st.stolenHat ? HATS.find(h=>h.id===st.stolenHat) : null;
+  const banner = document.getElementById('stolenBanner');
+  if(h) {
+    banner.classList.add('active');
+    banner.style.setProperty('--hat-color', h.color);
+    banner.style.setProperty('--hat-glow', h.glow);
+    document.getElementById('stolenEmoji').textContent = h.emoji;
+    document.getElementById('stolenName').textContent = h.name;
+  } else {
+    banner.classList.remove('active');
+    document.getElementById('stolenEmoji').textContent = '🎩';
+    document.getElementById('stolenName').textContent = 'لم تُحدد بعد';
+  }
+
+  // toggle label
+  const h2 = st.stolenHat ? HATS.find(h=>h.id===st.stolenHat) : null;
+  document.getElementById('stolenToggleHat').textContent = h2 ? `(${h2.emoji} ${h2.name})` : '';
+  const tog = document.getElementById('stolenToggle');
+  tog.classList.toggle('on', stolenOn);
+  document.getElementById('stolenCheck').textContent = stolenOn ? '✓' : '';
+}
+
+function renderDayUI() {
+  const isD2 = st.day === 2;
+  document.getElementById('dayLabel').textContent = isD2 ? 'اليوم الثاني' : 'اليوم الأول';
+  document.getElementById('dayDot').style.background = isD2 ? 'var(--blue)' : 'var(--red)';
+  document.getElementById('d1btn')?.classList.toggle('sel', st.day===1);
+  document.getElementById('d2btn')?.classList.toggle('sel', st.day===2);
+}
+
+function renderLog() {
+  const el = document.getElementById('logList');
+  if(!st.log.length) { el.innerHTML='<div class="log-empty">لا يوجد نشاط بعد</div>'; return; }
+  el.innerHTML = [...st.log].reverse().slice(0,15).map(e => `
+    <div class="log-item">
+      <span>${e.te}</span><span>${e.tn}</span>
+      <span>${e.me}</span>
+      ${e.he?`<span>${e.he}</span>`:''}
+      <span class="lpts ${e.pts>=0?'pos':'neg'}">${e.pts>=0?'+':''}${e.pts}</span>
+    </div>`).join('');
+}
+
+function renderSettings() {
+  document.getElementById('cfgName').value = st.mrxName;
+  document.getElementById('cfgThresh').value = st.revThresh;
+  renderStolenHatPicker();
+  renderDayUI();
+}
+
+// ════════ INTERACTIONS ════════
+function pickTeam(id) { selTeam=id; renderTeamPills(); renderPtsDisplay(); }
+function pickMission(id) { selMission=id; renderMissionGrid(); renderPtsDisplay(); }
+function pickHat(id) { selHat=id; renderHatGrid(); }
+function toggleStolen() { stolenOn=!stolenOn; renderStolenBanner(); renderPtsDisplay(); }
+
+function setStolenHat(id) {
+  st.stolenHat = st.stolenHat===id ? null : id;
+  save(); render();
+  toast(`🎩 قبعة اليوم: ${st.stolenHat ? HATS.find(h=>h.id===st.stolenHat)?.name : 'لا شيء'}`);
+}
+
+function setDay(d) { st.day=d; save(); render(); toast(d===1?'🌅 اليوم الأول':'🌃 اليوم الثاني'); }
+
+function doAdd() {
+  if(selTeam===null) { toast('❗ اختار خلية'); return; }
+  if(!selMission) { toast('❗ اختار نوع المهمة'); return; }
+  const pts = calcPts();
+  const prevRev = revCount();
+  const t = st.teams.find(t=>t.id===selTeam);
+  t.score += pts;
+  if(selHat && !t.hats.includes(selHat)) t.hats.push(selHat);
+  const m = MISSIONS.find(m=>m.id===selMission);
+  const h = HATS.find(h=>h.id===selHat);
+  st.log.push({ te:t.name[2], tn:t.name, me:m.label, he:h?.emoji, pts, ts:Date.now() });
+  st.lastAction = { tid:selTeam, pts };
+  save(); render();
+  // bump animation
+  setTimeout(()=>{ const el=document.getElementById('sc'+selTeam); if(el){el.classList.add('bump');setTimeout(()=>el.classList.remove('bump'),280);} },10);
+  toast(`✅ +${pts} لـ ${t.name}`);
+  closeSheet();
+  // reveal check
+  const nowRev = revCount();
+  if(nowRev > prevRev) {
+    const letters=[...st.mrxName];
+    setTimeout(()=>{ nowRev===letters.length ? showWinner() : showReveal(letters[nowRev-1]); }, 500);
+  }
+}
+
+function doDed() {
+  if(selTeam===null) { toast('❗ اختار خلية'); return; }
+  if(!selMission) { toast('❗ اختار نوع المهمة'); return; }
+  const pts = MISSIONS.find(m=>m.id===selMission)?.pts||0;
+  const t = st.teams.find(t=>t.id===selTeam);
+  t.score = Math.max(0, t.score-pts);
+  st.log.push({ te:t.name[2], tn:t.name, me:'خصم', pts:-pts, ts:Date.now() });
+  st.lastAction = { tid:selTeam, pts:-pts };
+  save(); render();
+  toast(`❌ -${pts} من ${t.name}`);
+  closeSheet();
+}
+
+function doUndo() {
+  if(!st.lastAction) { toast('لا يوجد عملية للتراجع'); return; }
+  const { tid, pts } = st.lastAction;
+  const t = st.teams.find(t=>t.id===tid);
+  t.score = Math.max(0, t.score-pts);
+  if(st.log.length) st.log.pop();
+  st.lastAction=null; save(); render();
+  toast('↩️ تم التراجع');
+}
+
+function saveName() {
+  const v = document.getElementById('cfgName').value.trim();
+  if(!v) return;
+  st.mrxName=v; save(); render(); toast('✅ تم تحديث الاسم');
+}
+function saveThresh() {
+  const v = parseInt(document.getElementById('cfgThresh').value);
+  if(!v||v<20) return;
+  st.revThresh=v; save(); render(); toast(`✅ كشف كل ${v} نقطة`);
+}
+function resetAll() {
+  if(!confirm('إعادة تعيين كل النقاط؟')) return;
+  const keep={mrxName:st.mrxName,revThresh:st.revThresh,day:st.day,stolenHat:st.stolenHat};
+  st=defState(); st.mrxName=keep.mrxName; st.revThresh=keep.revThresh; st.day=keep.day; st.stolenHat=keep.stolenHat;
+  save(); render(); toast('🔄 تمت إعادة التعيين'); closeSheet();
+}
+
+// ════════ SHEET / GATE ════════
+function openSheet() {
+  document.getElementById('overlay').classList.add('open');
+  document.getElementById('sheet').classList.add('open');
+  if(!adminUnlocked) {
+    document.getElementById('gate').style.display='';
+    document.getElementById('ctrl').classList.remove('open');
+  }
+}
+function closeSheet() {
+  document.getElementById('overlay').classList.remove('open');
+  document.getElementById('sheet').classList.remove('open');
+  stolenOn=false; renderPtsDisplay(); renderStolenBanner();
+}
+function checkPass() {
+  if(document.getElementById('passIn').value===PASS) {
+    adminUnlocked=true;
+    document.getElementById('gate').style.display='none';
+    document.getElementById('ctrl').classList.add('open');
+    document.getElementById('gateErr').style.display='none';
+  } else {
+    document.getElementById('gateErr').style.display='block';
+    document.getElementById('passIn').value='';
+  }
+}
+function toggleSettings() {
+  settingsOpen=!settingsOpen;
+  document.getElementById('settingsSec').style.display=settingsOpen?'block':'none';
+  if(settingsOpen) renderSettings();
+}
+
+// ════════ UI HELPERS ════════
+let tt;
+function toast(msg) {
+  const el=document.getElementById('toast');
+  el.textContent=msg; el.classList.add('show');
+  clearTimeout(tt); tt=setTimeout(()=>el.classList.remove('show'),2500);
+}
+function showReveal(letter) {
+  document.getElementById('revLetter').textContent=letter;
+  document.getElementById('revModal').classList.add('show');
+}
+function closeRevModal() { document.getElementById('revModal').classList.remove('show'); }
+function showWinner() {
+  document.getElementById('winnerName').textContent=st.mrxName;
+  document.getElementById('winnerModal').classList.add('show');
+  confetti();
+}
+function closeWinner() { document.getElementById('winnerModal').classList.remove('show'); }
+function confetti() {
+  const c=['#F0B429','#E8303A','#3D7FD4','#21A85A','#fff','#f4d03f'];
+  for(let i=0;i<80;i++){
+    const el=document.createElement('div'); el.className='confetti-piece';
+    el.style.cssText=`left:${Math.random()*100}vw;background:${c[~~(Math.random()*c.length)]};animation-duration:${1.5+Math.random()*2}s;animation-delay:${Math.random()*.8}s;width:${6+Math.random()*8}px;height:${10+Math.random()*10}px;`;
+    document.body.appendChild(el); setTimeout(()=>el.remove(),4000);
+  }
+}
+
+// ════════ BOOT ════════
+render();
+</script>
+</body>
+</html>
