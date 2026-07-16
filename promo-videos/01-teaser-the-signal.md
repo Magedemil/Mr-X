@@ -1,8 +1,11 @@
 # 📡 Teaser 1 — "The Signal" (الإشارة)
 
-> ✅ **اتولّد فعلاً** (2026-07-16) — موديل `veo3_1_lite`، لقطة رئيسية 8 ثواني 9:16 720p، صامتة:
-> https://d8j0ntlcm91z4.cloudfront.net/user_3FtyyyvfBlWmzNCztEVLpvvGYUT/hf_20260716_164025_8bf5fa7b-745d-4d8e-9f9b-b0a074230ff7.mp4
-> (نزّل الملف وأرشفه — روابط Higgsfield ممكن تنتهي. لقطة الـ End Card لسه محتاجة توليد بعد شحن الكريدت.)
+> ✅ **v2 — النسخة المعتمدة** (2026-07-16، برومبت محسّن + صوت أصلي غامض) — `veo3_1_lite`، 8 ث، 9:16، 720p:
+> https://d8j0ntlcm91z4.cloudfront.net/user_3FtyyyvfBlWmzNCztEVLpvvGYUT/hf_20260716_214116_cad2bc69-a590-4b39-87cd-b8ece86e87bd.mp4
+>
+> نسخة v1 القديمة (صامتة، برومبت أولي): https://d8j0ntlcm91z4.cloudfront.net/user_3FtyyyvfBlWmzNCztEVLpvvGYUT/hf_20260716_164025_8bf5fa7b-745d-4d8e-9f9b-b0a074230ff7.mp4
+>
+> ⚠️ نزّل الملفات وأرشفها — روابط Higgsfield ممكن تنتهي. الـ End Card جاهز في `generated/` (مش محتاج توليد).
 
 ## الفكرة والمزاج
 أول حاجة الشباب يشوفوها — من غير أي سياق. إشارة بث غامضة بتقطع، ظل بيعدي، اسم HEXA CODE بيظهر ويتشوش ويختفي. مفيش شرح، مفيش دعوة، مفيش تاريخ. الهدف الوحيد: "إيه ده؟!" في الجروبات.
