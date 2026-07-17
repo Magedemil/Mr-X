@@ -1,5 +1,13 @@
 # 🎬 Main Trailer — "Can You Crack The Code?" (التريلر الرئيسي)
 
+> ✅ **الأربع لقطات اتولّدوا** (2026-07-17) — `veo3_1_lite`، 9:16، بصوت مدمج:
+> - لقطة 1 (المدينة الجوية، 8 ث): https://d8j0ntlcm91z4.cloudfront.net/user_3FtyyyvfBlWmzNCztEVLpvvGYUT/hf_20260717_052620_8da99e0e-13a1-4222-a76c-66eede71c235.mp4
+> - لقطة 2 (الطرقة، 8 ث): https://d8j0ntlcm91z4.cloudfront.net/user_3FtyyyvfBlWmzNCztEVLpvvGYUT/hf_20260717_052622_8b079695-8a11-4ed4-af51-4e7653536030.mp4
+> - لقطة 3 (السطح والسداسيات الست، 8 ث): https://d8j0ntlcm91z4.cloudfront.net/user_3FtyyyvfBlWmzNCztEVLpvvGYUT/hf_20260717_054159_342acf84-e58c-43fd-b6e8-e703972b2b38.mp4
+> - لقطة 4 (الخاتمة، 6 ث): https://d8j0ntlcm91z4.cloudfront.net/user_3FtyyyvfBlWmzNCztEVLpvvGYUT/hf_20260717_054203_97e6636d-1fb8-4898-b8e8-026ede4c3680.mp4
+>
+> ⚠️ نزّلهم وأرشفهم — الروابط ممكن تنتهي. النصوص العربية والـ voiceover والـ end card (من `generated/`) يتركبوا في المونتاج.
+
 ## الفكرة والمزاج
 التصعيد الكامل: كل خيوط التيزرات بتتجمع. المدينة، الإشارات الغريبة، الظل، السداسيات — وأول مرة نوجه الدعوة صراحة للشباب: "التحقيق محتاجكم". ده الفيديو اللي بيتعرض في الاجتماع وبيتنشر آخر 3 أيام قبل المؤتمر.
 
