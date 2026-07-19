@@ -6,6 +6,9 @@
 >
 > ⚠️ نزّلهم وأرشفهم — الروابط ممكن تنتهي. النصوص العربية تتضاف overlay في المونتاج + الـ end card من `generated/`.
 >
+> 🔁 **v2 للقطة الممر — Mr. X مجهول تماماً** (2026-07-19، سيلويت أسود صرف بدون أي ملامح):
+> https://d8j0ntlcm91z4.cloudfront.net/user_3FtyyyvfBlWmzNCztEVLpvvGYUT/hf_20260719_181200_cfd95eba-91b0-4c6e-b620-b166e139adfe.mp4
+>
 > 🔁 **v2 للقطة المكتب — بصور الفريق الحقيقية** (2026-07-19، متولدة من فريم مُركّب بصورهم الفعلية):
 > https://d8j0ntlcm91z4.cloudfront.net/user_3FtyyyvfBlWmzNCztEVLpvvGYUT/hf_20260719_051013_98e05559-3cbf-46ee-b504-fadcde60380e.mp4
 > (الفريم الأصلي: `generated/frames/frame-desk.jpg`)
