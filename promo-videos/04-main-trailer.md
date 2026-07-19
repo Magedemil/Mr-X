@@ -8,6 +8,9 @@
 >
 > ⚠️ نزّلهم وأرشفهم — الروابط ممكن تنتهي. النصوص العربية والـ voiceover والـ end card (من `generated/`) يتركبوا في المونتاج.
 >
+> 🔁 **v2 للقطة 3 (السطح) — Mr. X مجهول تماماً** (2026-07-19، سيلويت أسود من الخلف بالكامل، glitch قبل ما لفة الرأس تكمل):
+> https://d8j0ntlcm91z4.cloudfront.net/user_3FtyyyvfBlWmzNCztEVLpvvGYUT/hf_20260719_141608_38bf2ede-e677-430b-9c6b-fcfb2c28d69c.mp4
+>
 > 🔁 **v2 للقطة 2 (الطرقة) — بصور الفريق الحقيقية على الأرضية** (2026-07-19):
 > https://d8j0ntlcm91z4.cloudfront.net/user_3FtyyyvfBlWmzNCztEVLpvvGYUT/hf_20260719_052540_30fdb254-42d5-4c6a-8c4f-20e61807a148.mp4
 > (الفريم الأصلي: `generated/frames/frame-floor.jpg`)
